@@ -1,0 +1,34 @@
+# Compiled Python files
+*.pyc
+*.pyo
+__pycache__/
+
+# Virtual environment
+venv/
+env/
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Pytest cache
+.cache/
+
+# Build directories
+build/
+dist/
+*.egg-info/
+
+# MySQL / SQLite Database files
+*.db
+*.sqlite
+
+# Misc
+.DS_Store
+Thumbs.db
