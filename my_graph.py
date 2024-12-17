@@ -115,12 +115,19 @@ class MyGraph(nx.Graph):
         return False
 
     def distanceNodes(self, node1, node2):
-        distance = 0
+        x1, y1 = node1[0]
+        x2, y2 = node2[0]
+        distance = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** (0.5)
         return distance
 
     def reconstructPath(self, node):
-        return
-
+        path = []
+        while not(node == None):
+             path.insert(0,list(node))
+             node = node[1]['parent']
+             #print(node)
+        return path
+    
     def findPath(self, start, goal):
         openList = [start]
         closeList = []
@@ -128,19 +135,37 @@ class MyGraph(nx.Graph):
         start[1]['g'] = 0
         start[1]['h'] = self.distanceNodes(start, goal)
         start[1]['f'] = start[1]['h'] + start[1]['g']
+        start[1]['parent'] = None
 
         while(len(openList) > 0):
+            #print(f"openList = {openList}\n")
             current = openList[0]
             for i in openList[1:]:
-                if (current[0]['f'] > i[0]['f']):
+                if (current[1]['f'] > i[1]['f']):
                     current = i
             if (current == goal):
                 return self.reconstructPath(current)
-            
+            openList.remove(current)
+            closeList.append(current)
+            print(f"current selecionado: {current}")
+            for neighbor in self.neighbors(current[0]):
+                neighbor = (neighbor, self.nodes[neighbor])
+                if (neighbor in closeList):
+                    continue
+                tentative_g = current[1]['g'] + self.distanceNodes(current, neighbor)
+
+                if not(neighbor in openList):
+                    openList.append(neighbor)
+                elif (tentative_g >= neighbor[1]['g']):
+                    continue
                 
-            
-        
-        return
+                neighbor[1]['parent'] = current
+                neighbor[1]['g'] = tentative_g
+                neighbor[1]['h'] = self.distanceNodes(neighbor, goal)
+                neighbor[1]['f'] = neighbor[1]['g'] + neighbor[1]['h']
+                print(f"neighbor selecionado: {neighbor}")
+            print("\n")
+        return None
     
     
 
