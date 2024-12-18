@@ -1,6 +1,11 @@
 import networkx as nx
 import matplotlib.pylab as plt
+import math
 from patterns import OBSTACULO, NAOBSTACULO
+
+STARTING_ANGLE = 0
+FRAN_DIAMETER = 1
+WHEEL_RADIUS = 1
 
 class MyGraph(nx.Graph):
     def __init__(self, incoming_graph_data=None, **attr):
@@ -10,8 +15,8 @@ class MyGraph(nx.Graph):
     
     def add_obstacules_node(self,obstacules_node : list):
         for ponto_obstac in obstacules_node:
-            self.add_node(ponto_obstac, type=OBSTACULO, value=self.obstaculo)
-        self.obstaculo+=1
+            self.add_node(ponto_obstac, type=OBSTACULO,value=self.obstaculo)
+        self.obstaculo += 1
         '''
         self.add_edges_from([(obstacules_node[0], obstacules_node[1]),
                              (obstacules_node[0], obstacules_node[2]),
@@ -60,8 +65,10 @@ class MyGraph(nx.Graph):
                         x2, y2 = nodes[nextNodeId][0]
                         self.add_edge(nodes[nodeId][0], nodes[nextNodeId][0], weight=((x2 - x1) ** 2 + (y2 - y1) ** 2) ** (0.5))
         
-        print(self.edges(data=True))
-        print(nx.shortest_path(self, source=nodes[0][0], target=nodes[-1][0], weight='weight'))          
+        #print(self.edges(data=True))
+        #print(nx.shortest_path(self, source=nodes[0][0], target=nodes[-1][0], weight='weight'))
+        #print(f"A* - {[i[0] for i in self.findPath(nodes[0], nodes[-1])]}")
+        self.francisPath([i[0] for i in self.findPath(nodes[0], nodes[-1])]) 
         return
 
     def segmentos_se_intersectam(self, seg1, seg2):
@@ -113,7 +120,7 @@ class MyGraph(nx.Graph):
             return q1 != p2 and q2 != p2  # Exclui interseção apenas no extremo
 
         return False
-
+    
     def distanceNodes(self, node1, node2):
         x1, y1 = node1[0]
         x2, y2 = node2[0]
@@ -127,7 +134,7 @@ class MyGraph(nx.Graph):
              node = node[1]['parent']
              #print(node)
         return path
-    
+
     def findPath(self, start, goal):
         openList = [start]
         closeList = []
@@ -147,7 +154,7 @@ class MyGraph(nx.Graph):
                 return self.reconstructPath(current)
             openList.remove(current)
             closeList.append(current)
-            print(f"current selecionado: {current}")
+            #print(f"current selecionado: {current}")
             for neighbor in self.neighbors(current[0]):
                 neighbor = (neighbor, self.nodes[neighbor])
                 if (neighbor in closeList):
@@ -163,15 +170,35 @@ class MyGraph(nx.Graph):
                 neighbor[1]['g'] = tentative_g
                 neighbor[1]['h'] = self.distanceNodes(neighbor, goal)
                 neighbor[1]['f'] = neighbor[1]['g'] + neighbor[1]['h']
-                print(f"neighbor selecionado: {neighbor}")
-            print("\n")
+                #print(f"neighbor selecionado: {neighbor}")
+            #print("\n")
         return None
     
-    
+    def francisPath(self, graphPath):
+        print(graphPath)
+        currentAngle = STARTING_ANGLE
+        fPath = []
+        for i in range(len(graphPath)-1):
+            x1, y1 = graphPath[i]
+            x2, y2 = graphPath[i+1]
+            rotateRad = math.atan(0 if (x2-x1 == 0) else (y2-y1)/(x2-x1))
+            rotateRad = rotateRad if rotateRad > 0 else (2*math.pi + rotateRad)
+            nextAgleFrancis = math.degrees(FRAN_DIAMETER * rotateRad / (WHEEL_RADIUS * 2))
+            rotateFrancis = nextAgleFrancis - currentAngle
+            currentAngle = nextAgleFrancis
+            fPath.append(f"{rotateFrancis:.2f},{-1*rotateFrancis:.2f}")
 
+            distance = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** (0.5)
+            rotateToDistance = distance * 360 / (2*math.pi*WHEEL_RADIUS)
+            fPath.append(f"{rotateToDistance:.2f},{rotateToDistance:.2f}")
+        
+        print(";".join(fPath))
+        return ";".join(fPath)
     '''
     def plot_graph(self):
         pos = {node: node for node in self.nodes(data=True)}
         nx.draw(self.graph, pos, with_labels=True, node_color="lightblue", font_size=8)
         plt.show()
     '''
+
+ 
