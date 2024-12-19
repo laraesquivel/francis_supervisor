@@ -11,6 +11,7 @@ class MyGraph(nx.Graph):
     def __init__(self, incoming_graph_data=None, **attr):
         super().__init__(incoming_graph_data, **attr)
         self.obstaculo = 1
+        self.PATH = None
 
     
     def add_obstacules_node(self,obstacules_node : list):
@@ -49,7 +50,7 @@ class MyGraph(nx.Graph):
         for nodeId in range(0, len(nodes)):
             for nextNodeId in range(nodeId+1,len(nodes)):
                 #print(type(nodes))
-                if (not(nodes[nodeId][1]['value'] == nodes[nextNodeId][1]['value'] or nodes[nodeId][1]['value'] == 0)):
+                if (not(nodes[nodeId][1]['value'] == nodes[nextNodeId][1]['value']) or nodes[nodeId][1]['value'] == 0):
                     #print(f"Analisando {nodes[nodeId]} e {nodes[nextNodeId]}")
                     newEdge = (nodes[nodeId][0],nodes[nextNodeId][0])
                     isNewEdge = True
@@ -68,7 +69,7 @@ class MyGraph(nx.Graph):
         #print(self.edges(data=True))
         #print(nx.shortest_path(self, source=nodes[0][0], target=nodes[-1][0], weight='weight'))
         #print(f"A* - {[i[0] for i in self.findPath(nodes[0], nodes[-1])]}")
-        self.francisPath([i[0] for i in self.findPath(nodes[0], nodes[-1])]) 
+        self.PATH = self.francisPath([i[0] for i in self.findPath(nodes[0], nodes[-1])]) 
         return
 
     def segmentos_se_intersectam(self, seg1, seg2):

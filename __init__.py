@@ -9,7 +9,6 @@ from graphcanvasapp import GraphCanvasApp
 
 root = tk.Tk()
 app = GraphCanvasApp(root,'map.jpg')
-
 plot_button = tk.Button(root, text='Plot Graph', command=app.plot_graph)
 plot_button.pack()
 
@@ -18,7 +17,8 @@ root.mainloop()
 
 #############
 #Diviir string e envia todo o grafo
-graph_str = 'la'
+graph_str = app.PATH
+
 bluenxt = BlueNXT(graph_str)
 graph_str_list = bluenxt.gerate()
 BlueNXT.send_message_list(graph_str_list)
