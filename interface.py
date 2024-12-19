@@ -76,10 +76,9 @@ class RoboApp:
         self.move(heading, distance)  # Mova o robô na interface
 
     def update_interface(self):
-        with self.supervisor.lock:
-            distancia = self.supervisor.distance
-            angulo = self.supervisor.heading
-            self.move(distancia, angulo)
+        distancia = self.supervisor.distance
+        angulo = self.supervisor.heading
+        self.move(distancia, angulo)
 
     def update_loop(self):
         # Update the interface based on supervisor data

@@ -1,0 +1,3 @@
+
+class MyGraph:
+    pass

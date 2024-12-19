@@ -36,15 +36,6 @@ class SupervisorSystem:
         except bluetooth.btcommon.BluetoothError as e:
             print(e)
         return None
-    
-    def send_bluetooth_command(self, command):
-        """Envia uma string via Bluetooth."""
-        try:
-            # Envia o comando via Bluetooth
-            self.socket.send(command)
-            print(f"Comando enviado: {command}")
-        except bluetooth.BluetoothError as e:
-            print(f"Erro ao enviar comando Bluetooth: {e}")
 
     def update_position(self,command):
         # Aqui você implementaria a lógica de atualização da posição
