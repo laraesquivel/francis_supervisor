@@ -151,7 +151,8 @@ class MyGraph(nx.Graph):
             for i in openList[1:]:
                 if (current[1]['f'] > i[1]['f']):
                     current = i
-            if (current == goal):
+            print(f"{current} == {goal}")
+            if (current[0] == goal[0]):
                 return self.reconstructPath(current)
             openList.remove(current)
             closeList.append(current)
@@ -184,7 +185,7 @@ class MyGraph(nx.Graph):
             x2, y2 = graphPath[i+1]
             rotateRad = 0 if (y1 == y2) else math.pi/2 if (x1==x2) else (y2-y1)/(x2-x1)
             rotateRad = rotateRad if rotateRad >= 0 else (2*math.pi + rotateRad)
-            print(f"{FRAN_DIAMETER} * {rotateRad} / ({WHEEL_RADIUS} * 2) = {FRAN_DIAMETER * rotateRad / (WHEEL_RADIUS * 2)}")
+            #print(f"{FRAN_DIAMETER} * {rotateRad} / ({WHEEL_RADIUS} * 2) = {FRAN_DIAMETER * rotateRad / (WHEEL_RADIUS * 2)}")
             nextAgleFrancis = math.degrees(FRAN_DIAMETER * rotateRad / (WHEEL_RADIUS))
             rotateFrancis = nextAgleFrancis - currentAngle
             currentAngle = nextAgleFrancis
