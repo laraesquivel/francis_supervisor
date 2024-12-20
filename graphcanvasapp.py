@@ -27,7 +27,8 @@ class GraphCanvasApp:
         self.current_rect = None
 
         # Initial points (non-obstacles) and rectangles (obstacles)
-       # self.initial_points = [(0, 85), (0, 86), (60, 85),(60,86)]  # Example predefined points
+        # self.initial_points = [(0, 85), (0, 86), (60, 85),(60,86)]  # Example predefined points
+        '''
         self.initial_rectangles = [((0,152),(80,182)),
                                    ((0,247),(80,228)),
                                    ((0,289),(80,310)),
@@ -35,8 +36,14 @@ class GraphCanvasApp:
                                    ((280,150),(380,171)),
                                    ((280,230), (380,250)),
                                    ((280,286),(380,307)),
-                                   ((280,384),(380,365)),
-                                   ((0,0),(180,270))]
+                                   ((280,384),(380,365))]
+        '''
+        self.initial_rectangles = [((0,2*(39+47-20)),(2*50,2*(39+47+10))),
+                                   ((0,2*(39+47-10+30)),(2*50,2*(39+47+30+39+10))),
+                                   ((0,2*(39+47+30+39+10+10)),(2*50,2*(39+47+30+39+10+10+30))),
+                                   ((2*(130),2*(39+47-20)),(2*180,2*(39+47+10))),
+                                   ((2*(130),2*(39+47-10+30)),(2*180,2*(39+47+30+39+10))),
+                                   ((2*(130),2*(39+47+30+39+10+10)),(2*180,2*(39+47+30+39+10+10+30)))]
 
         # Storage for drawn elements
         self.rectangles = []  # To store obstacles
