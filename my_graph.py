@@ -4,8 +4,8 @@ import math
 from patterns import OBSTACULO, NAOBSTACULO
 
 STARTING_ANGLE = 0
-FRAN_DIAMETER = 1
-WHEEL_RADIUS = 1
+FRAN_DIAMETER = 16.5
+WHEEL_RADIUS = 5.4
 
 class MyGraph(nx.Graph):
     def __init__(self, incoming_graph_data=None, **attr):
