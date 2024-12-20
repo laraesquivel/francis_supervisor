@@ -67,7 +67,7 @@ class GraphCanvasApp:
         # Draw predefined rectangles (obstacles)
         for (x1, y1), (x2, y2) in self.initial_rectangles:
             self.rectangles.append(((x1, y1), (x2, y2)))
-            self.graph.add_obstacules_node([(x1, y1), (x1, y2), (x2, y1), (x2, y2)])
+            self.graph.add_obstacules_node([(round(x1/2), round(y1/2)), (round(x1/2),round(y2/2)), (round(x2/2), round(y1/2)), (round(x2/2), round(y2/2))])
             self.canvas.create_rectangle(x1, y1, x2, y2, outline="blue")
 
     def on_resize(self, event):
@@ -100,7 +100,7 @@ class GraphCanvasApp:
         x1, y1 = self.rect_start
         x2, y2 = event.x, event.y
         self.rectangles.append(((x1, y1), (x2, y2)))
-        self.graph.add_obstacules_node([(x1, y1), (x1, y2), (x2, y1), (x2, y2)])
+        self.graph.add_obstacules_node([(round(x1/2), round(y1/2)), (round(x1/2), round(y2/2)), (round(x2/2), round(y1/2)), (round(x2/2), round(y2/2))])
         self.canvas.create_rectangle(x1, y1, x2, y2, outline="blue")
         self.rect_start = None
         self.current_rect = None
@@ -108,11 +108,11 @@ class GraphCanvasApp:
     def on_click_right(self, event):
         x, y = event.x, event.y
         self.points.append((x, y))
-        self.graph.add_non_obstacules_node([(x, y)])
+        self.graph.add_non_obstacules_node([(round(x/2), round(y/2))])
         self.canvas.create_oval(x - 2, y - 2, x + 2, y + 2, fill="green")
 
     def on_mouse_move(self, event):
-        coord_text = f"Coordenadas: ({event.x}, {event.y})"
+        coord_text = f"Coordenadas: ({round(event.x/2)}, {round(event.y/2)})"
         self.coord_label.config(text=coord_text)
 
     def plot_graph(self):

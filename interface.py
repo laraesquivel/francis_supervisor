@@ -7,7 +7,7 @@ import threading
 
 
 class RoboApp:
-    def __init__(self, root, supervisor):
+    def __init__(self, root, supervisor,initial_position):
         self.root = root
         self.root.title("Francis Supervisor System 0.1")
 
@@ -39,8 +39,8 @@ class RoboApp:
         #self.robo_pos = (self.width / 2, self.height / 2)  # Posição inicial do robô (centro da mesa)
         self.robo_pos = (53*2,31*2)
         self.robo_ang = 0
-        self.robo = self.canvas.create_oval(self.robo_pos[0]-5, self.robo_pos[1]-5,
-                                             self.robo_pos[0]+5, self.robo_pos[1]+5,
+        self.robo = self.canvas.create_oval(initial_position[0]-5, initial_position[1]-5,
+                                             initial_position[0]+5, initial_position[1]+5,
                                              fill="blue")
 
         # Lista para armazenar a trajetória
