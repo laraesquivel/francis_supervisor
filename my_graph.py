@@ -48,6 +48,13 @@ class MyGraph(nx.Graph):
         nodes = list(self.nodes(data=True))
 
         for nodeId in range(0, len(nodes)):
+            if (0 >= nodes[nodeId][0][0] or 
+                nodes[nodeId][0][0] >= 180 or 
+                0 >= nodes[nodeId][0][1] or 
+                nodes[nodeId][0][1] >= 270):
+                self.remove_node(nodes[nodeId][0])
+                #self.remove_edges_from(list(self.edges(nodes[nodeId][0])))
+                continue
             for nextNodeId in range(nodeId+1,len(nodes)):
                 #print(type(nodes))
                 if (not(nodes[nodeId][1]['value'] == nodes[nextNodeId][1]['value']) or nodes[nodeId][1]['value'] == 0):
@@ -66,10 +73,11 @@ class MyGraph(nx.Graph):
                         x2, y2 = nodes[nextNodeId][0]
                         self.add_edge(nodes[nodeId][0], nodes[nextNodeId][0], weight=((x2 - x1) ** 2 + (y2 - y1) ** 2) ** (0.5))
         
+        
         #print(self.edges(data=True))
         #print(nx.shortest_path(self, source=nodes[0][0], target=nodes[-1][0], weight='weight'))
         #print(f"A* - {[i[0] for i in self.findPath(nodes[0], nodes[-1])]}")
-        self.PATH = self.francisPath([i[0] for i in self.findPath(nodes[0], nodes[-1])]) 
+        #self.PATH = self.francisPath([i[0] for i in self.findPath(nodes[0], nodes[-1])]) 
         return
 
     def segmentos_se_intersectam(self, seg1, seg2):
