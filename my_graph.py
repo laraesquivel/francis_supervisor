@@ -182,16 +182,17 @@ class MyGraph(nx.Graph):
         for i in range(len(graphPath)-1):
             x1, y1 = graphPath[i]
             x2, y2 = graphPath[i+1]
-            rotateRad = math.atan(0 if (x2-x1 == 0) else (y2-y1)/(x2-x1))
-            rotateRad = rotateRad if rotateRad > 0 else (2*math.pi + rotateRad)
-            nextAgleFrancis = math.degrees(FRAN_DIAMETER * rotateRad / (WHEEL_RADIUS * 2))
+            rotateRad = 0 if (y1 == y2) else math.pi/2 if (x1==x2) else (y2-y1)/(x2-x1)
+            rotateRad = rotateRad if rotateRad >= 0 else (2*math.pi + rotateRad)
+            print(f"{FRAN_DIAMETER} * {rotateRad} / ({WHEEL_RADIUS} * 2) = {FRAN_DIAMETER * rotateRad / (WHEEL_RADIUS * 2)}")
+            nextAgleFrancis = math.degrees(FRAN_DIAMETER * rotateRad / (WHEEL_RADIUS))
             rotateFrancis = nextAgleFrancis - currentAngle
             currentAngle = nextAgleFrancis
-            fPath.append(f"{rotateFrancis:.2f},{-1*rotateFrancis:.2f}")
+            fPath.append(f"{round(rotateFrancis)},{round(-1*rotateFrancis)}")
 
             distance = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** (0.5)
             rotateToDistance = distance * 360 / (2*math.pi*WHEEL_RADIUS)
-            fPath.append(f"{rotateToDistance:.2f},{rotateToDistance:.2f}")
+            fPath.append(f"{round(rotateToDistance)},{round(rotateToDistance)}")
         
         print(";".join(fPath))
         return ";".join(fPath)
